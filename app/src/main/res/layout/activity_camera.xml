@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.camerakit.CameraKitView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:keepScreenOn="true"
+        app:camera_flash="auto"
+        app:camera_facing="front"
+        app:camera_focus="continuous"
+        app:camera_permissions="camera" />
+
+    <ImageView
+        android:id="@+id/btn_front"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera_front"
+        android:layout_margin="20dp"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        app:tint="#fff" />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera_rear"
+        android:layout_margin="20dp"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        app:tint="#fff" />
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorGreen"
+        android:text="Ambil Foto"
+        android:textColor="#ffffff" />
+
+</FrameLayout>

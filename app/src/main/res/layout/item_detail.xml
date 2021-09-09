@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    app:cardCornerRadius="0dp"
+    app:cardUseCompatPadding="true"
+    android:layout_marginBottom="@dimen/space_quarter"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picked Up"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/space_x1"
+            android:paddingEnd="@dimen/space_x1"
+            android:layout_marginBottom="@dimen/space_x1"
+            android:background="@color/colorGreen"
+            android:padding="@dimen/space_half"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/distance"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/consigne_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Consignee Name"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_more_vert"
+                android:foreground="?attr/selectableItemBackground"
+                app:tint="@color/black" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#80cccccc"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"/>
+
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consignee Address"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_location_to"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center_vertical"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#80cccccc"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="35dp"/>
+
+        <TextView
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manifest"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_box"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center_vertical"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#80cccccc"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Retur"
+                android:layout_marginEnd="@dimen/space_x1"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_weight="2"
+                android:background="@drawable/form_rounded"
+                app:backgroundTint="@color/colorRed"
+                android:visibility="visible"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Deliver"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:background="@drawable/form_rounded"
+                android:backgroundTint="@color/colorAccent"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

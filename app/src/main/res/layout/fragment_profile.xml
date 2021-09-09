@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="id.toriqwah.project.view.profile.ProfileViewModel" />
+    </data>
+<RelativeLayout
+    android:id="@+id/view_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space_x1"
+    android:padding="@dimen/space_x2"
+    android:background="@drawable/form_rounded_stroke"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/space_x4"
+        android:layout_gravity="center"
+        android:src="@drawable/blank"/>
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"/>
+
+</LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Password"
+        android:layout_above="@id/out"
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/space_x3"
+        android:layout_marginEnd="@dimen/space_x3"
+        android:background="@drawable/form_rounded"
+        app:backgroundTint="@color/colorBlue"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/space_x3"
+        android:background="@drawable/form_rounded"
+        app:backgroundTint="@color/colorRed"/>
+</RelativeLayout>
+</layout>

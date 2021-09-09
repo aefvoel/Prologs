@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/space_quarter"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/soft_grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Receipt Number : "
+            android:textSize="12sp"
+            android:paddingStart="@dimen/space_x2"
+            android:paddingTop="@dimen/space_x2"
+            android:paddingBottom="@dimen/space_x2"
+            android:paddingEnd="@dimen/space_half"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_check_underline"
+            android:drawablePadding="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#MKS"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+
+            android:paddingTop="@dimen/space_x2"
+            android:paddingBottom="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.2 Km"
+            android:textSize="12sp"
+            android:padding="@dimen/space_x1"
+            android:layout_marginEnd="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/space_x1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHIPPER"
+            android:textSize="14sp"
+            android:padding="@dimen/space_half"
+            android:layout_margin="@dimen/space_x2"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/shipper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MGM Bogo"
+            android:textSize="16sp"
+            android:padding="@dimen/space_half"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_2"/>
+
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="@dimen/space_x4"
+            android:layout_height="@dimen/space_x4"
+            android:src="@drawable/ic_phone_call"
+            android:backgroundTint="@color/colorGreen"
+            android:layout_margin="@dimen/space_x2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/hard_grey"
+            android:layout_margin="@dimen/space_x1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shipper"/>
+
+        <TextView
+            android:id="@+id/text_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TYPE: "
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="@dimen/space_half"
+            android:layout_margin="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Single Drop"
+            android:textSize="12sp"
+            android:padding="@dimen/space_half"
+            android:background="@drawable/form_rounded"
+            android:backgroundTint="@color/hard_grey"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/text_3"
+            app:layout_constraintTop_toBottomOf="@id/view"/>
+        <TextView
+            android:id="@+id/text_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status: "
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:padding="@dimen/space_half"
+            android:layout_marginTop="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@id/status"
+            app:layout_constraintTop_toBottomOf="@id/view"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picking Up"
+            android:textSize="12sp"
+            android:background="@drawable/form_rounded"
+            android:padding="@dimen/space_half"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/hard_grey"
+            android:layout_marginTop="@dimen/space_x2"
+            android:layout_marginEnd="@dimen/space_x2"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

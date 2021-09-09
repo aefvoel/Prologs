@@ -1,0 +1,177 @@
+{
+  "project_info": {
+    "project_number": "375787370695",
+    "firebase_url": "https://misterkirim-cda24.firebaseio.com",
+    "project_id": "misterkirim-cda24",
+    "storage_bucket": "misterkirim-cda24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375787370695:android:074f1f4b08335feb",
+        "android_client_info": {
+          "package_name": "com.misterkirim.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375787370695-4oediak3s4di4a7o2o317elsdv63t5sh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.misterkirim.customer",
+            "certificate_hash": "8344dc1bacdc7d7e7add5b404082cd96a13c6339"
+          }
+        },
+        {
+          "client_id": "375787370695-go7h0et5tvgirdkv8826u271jmgbogni.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.misterkirim.customer",
+            "certificate_hash": "4f41d65aad99cf5f1a82e8c87c228f967cae9455"
+          }
+        },
+        {
+          "client_id": "375787370695-k3vglhdd8snk0r62lpsfu72en46dc0ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.misterkirim.customer",
+            "certificate_hash": "760039f9783acbc67b967e1ed4af45bb03b25f8b"
+          }
+        },
+        {
+          "client_id": "375787370695-5b790s5ibmdfbcu0srnt11hkgmefs4c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasmUq1v4PKV67nDaXa9tyFGKdt1ZmlsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375787370695-4q7k3ljs85h230mr5tudk4ojh7spha77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375787370695:android:0f3e0bd02467e4ba",
+        "android_client_info": {
+          "package_name": "com.misterkirim.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375787370695-5b790s5ibmdfbcu0srnt11hkgmefs4c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasmUq1v4PKV67nDaXa9tyFGKdt1ZmlsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375787370695:android:86dbae246a6229e6",
+        "android_client_info": {
+          "package_name": "com.misterkirim.frdriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375787370695-5b790s5ibmdfbcu0srnt11hkgmefs4c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasmUq1v4PKV67nDaXa9tyFGKdt1ZmlsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375787370695:android:d3401222371e2b59",
+        "android_client_info": {
+          "package_name": "com.misterkirim.misterprioritas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375787370695-o2cjuauo47si4vus0o1jam230tqhf6o7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.misterkirim.misterprioritas",
+            "certificate_hash": "5c66fd820fe62e133816a96e4de0d98ea44ca192"
+          }
+        },
+        {
+          "client_id": "375787370695-5b790s5ibmdfbcu0srnt11hkgmefs4c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasmUq1v4PKV67nDaXa9tyFGKdt1ZmlsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375787370695-4q7k3ljs85h230mr5tudk4ojh7spha77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
