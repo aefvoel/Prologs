@@ -91,7 +91,6 @@ class HistoryFragment : BaseFragment(), TaskAdapter.Listener{
     override fun onItemClicked(data: Task) {
         startActivity(Intent(context, DetailActivity::class.java)
             .putExtra("id_order", data.idOrder)
-            .putExtra("id_status", data.jobStatusId)
-            .putExtra("job_status", data.jobStatus))
+            .putExtra("source", "3"))
     }
 }

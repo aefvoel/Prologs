@@ -16,12 +16,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -51,7 +53,8 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by inject<MainViewModel>()
     private var mFusedLocationClient: FusedLocationProviderClient? = null
-
+    private lateinit var locationManager: LocationManager
+    var gpsStatus = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,8 +101,26 @@ class MainActivity : BaseActivity() {
         }
         viewModel.appSetting()
         setView()
+        checkGpsStatus()
     }
 
+    private fun checkGpsStatus() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if (gpsStatus) {
+
+        } else {
+            Snackbar.make(view_parent, "GPS is disabled!", Snackbar.LENGTH_LONG)
+                .setAction("Enable") {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }.show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkGpsStatus()
+    }
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.page_1 -> {
@@ -186,6 +207,9 @@ class MainActivity : BaseActivity() {
 
         ic_scan.setOnClickListener {
             checkPermission()
+        }
+        ic_notif.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
         }
         btn_add.setOnClickListener {
             startActivity(Intent(this@MainActivity, ManualActivity::class.java))

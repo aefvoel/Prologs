@@ -29,7 +29,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                         size.value = "You have ${listTask.value!!.size} assigned tasks."
                         sum.value = listTask.value!!.size
                     } else {
-                        size.value = response.body.info.title + " " + response.body.info.message
+                        size.value = response.body.info.title + "\n" + response.body.info.message
                     }
                 }
                 is NetworkResponse.ServerError -> {
@@ -53,8 +53,8 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                     isLoading.value = false
                     if (response.body.status){
                         listRunningTask.value = response.body.data!!
-                        size.value = "You have ${listTask.value!!.size} assigned tasks."
-                        sum.value = listTask.value!!.size
+                        size.value = "You have ${listRunningTask.value!!.size} assigned tasks."
+                        sum.value = listRunningTask.value!!.size
                     } else {
                         size.value = response.body.info.title + "\n" + response.body.info.message
                     }

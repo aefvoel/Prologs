@@ -97,7 +97,8 @@ class DetailActivity : BaseActivity(), ShipmentAdapter.Listener {
                 }
             })
             responseSuccess.observe(this@DetailActivity, Observer {
-                viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt()))
+                viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt(),
+                    intent.extras?.getString("source")!!.toInt()))
                 Toast.makeText(
                         this@DetailActivity, "Success", Toast.LENGTH_LONG
                 ).show()
@@ -106,24 +107,25 @@ class DetailActivity : BaseActivity(), ShipmentAdapter.Listener {
         }
         setNav()
 
-        viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt()))
+        viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt(),
+            intent.extras?.getString("source")!!.toInt()))
         viewModel.getListReason()
 
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt()))
+        viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt(),
+            intent.extras?.getString("source")!!.toInt()))
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setView(data: DetailResponse) {
         swipe.setOnRefreshListener {
-            viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt()))
+            viewModel.detailTask(Detail(intent.extras?.getString("id_order")!!.toInt(),
+                intent.extras?.getString("source")!!.toInt()))
         }
         idOrder = data.order.idOrder
-        val idStatus = intent.extras?.getString("id_status")
-        val jobStatus = intent.extras?.getString("job_status")
         if (data.order.isMultidrop == "0"){
             type.backgroundTintList = getColorStateList(R.color.hard_grey)
         }

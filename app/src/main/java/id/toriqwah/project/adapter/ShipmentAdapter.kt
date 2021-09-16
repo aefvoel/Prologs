@@ -58,6 +58,10 @@ class ShipmentAdapter(context: Context, list: ArrayList<Shipment>, private val l
                 holder.btnAction.visibility = View.GONE
                 holder.btnRetur.visibility = View.GONE
             }
+            "26" -> {
+                holder.btnAction.text = "Deliver"
+                holder.btnRetur.visibility = View.GONE
+            }
         }
         holder.btnMore.setOnClickListener {
             val option = arrayOf<CharSequence>(

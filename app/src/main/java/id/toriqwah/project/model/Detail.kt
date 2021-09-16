@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Detail (
         @SerializedName("id_order")
-        var id_order: Int
+        var id_order: Int,
+        @SerializedName("source")
+        var source: Int
 )
 
 data class DetailResponse (

@@ -37,9 +37,18 @@
             android:layout_width="@dimen/space_x3"
             android:layout_height="@dimen/space_x3"
             android:layout_marginTop="@dimen/space_x5"
-            android:layout_marginEnd="@dimen/space_x3"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@id/ic_notif"
             android:src="@drawable/ic_delivery"
+            app:tint="@color/black" />
+        <ImageView
+            android:id="@+id/ic_notif"
+            android:layout_width="@dimen/space_x3"
+            android:layout_height="@dimen/space_x3"
+            android:layout_marginTop="@dimen/space_x5"
+            android:layout_marginStart="@dimen/space_x1"
+            android:layout_marginEnd="@dimen/space_x2"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_notif"
             app:tint="@color/black" />
     </RelativeLayout>
     <FrameLayout

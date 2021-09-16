@@ -158,14 +158,12 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
             "New Task" -> {
                 startActivity(Intent(context, DetailActivity::class.java)
                     .putExtra("id_order", data.idOrder)
-                    .putExtra("id_status", data.idStatus)
-                    .putExtra("job_status", data.jobStatus))
+                    .putExtra("source", "1"))
             }
             "Running Task" -> {
                 startActivity(Intent(context, DetailActivity::class.java)
                     .putExtra("id_order", data.idOrder)
-                    .putExtra("id_status", data.jobStatusId)
-                    .putExtra("job_status", data.jobStatus))
+                    .putExtra("source", "2"))
             }
         }
     }

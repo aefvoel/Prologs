@@ -41,6 +41,8 @@
         <activity android:name=".view.manual.ManualActivity"/>
         <activity android:name=".view.received.ReceivedActivity"/>
         <activity android:name=".view.profile.UpdatePasswordActivity"/>
+        <activity android:name=".view.main.NotificationActivity"/>
+
 
 
 
