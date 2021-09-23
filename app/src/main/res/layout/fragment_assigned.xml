@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.toriqwah.project.view.assigned.AssignedViewModel" />
+            type="id.prologs.driver.view.assigned.AssignedViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

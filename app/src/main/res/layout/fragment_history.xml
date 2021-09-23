@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.toriqwah.project.view.history.HistoryViewModel" />
+            type="id.prologs.driver.view.history.HistoryViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

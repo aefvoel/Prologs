@@ -11,7 +11,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId "com.misterkirim.misterprioritas"
+        applicationId "id.prologs.driver"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

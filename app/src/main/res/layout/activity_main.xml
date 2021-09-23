@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.toriqwah.project.view.main.MainViewModel" />
+            type="id.prologs.driver.view.main.MainViewModel" />
     </data>
 <RelativeLayout
     android:id="@+id/view_parent"
