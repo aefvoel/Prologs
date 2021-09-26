@@ -133,10 +133,10 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
         }
     }
 
-    fun appSetting() {
+    fun appSetting(update: Update) {
         isLoading.value = true
         viewModelScope.launch {
-            when (val response = userRepository.appSetting()) {
+            when (val response = userRepository.appSetting(update)) {
                 is NetworkResponse.Success -> {
                     isLoading.value = false
                     if (response.body.status) {

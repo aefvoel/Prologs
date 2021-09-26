@@ -22,7 +22,6 @@ class AppPreference {
             Hawk.delete(a_first_time)
             Hawk.delete(a_login)
             Hawk.delete(a_token)
-            Hawk.delete(a_profile)
             Hawk.delete(a_image)
             Hawk.delete(a_att)
 
@@ -55,7 +54,7 @@ class AppPreference {
         }
 
         fun getProfile(): Profile {
-            return (Hawk.get(a_profile))
+            return (Hawk.get(a_profile, Profile()))
         }
 
         fun putImage(value: Bitmap) {

@@ -59,7 +59,7 @@ class ShipmentAdapter(context: Context, list: ArrayList<Shipment>, data: Shipper
                 holder.btnRetur.visibility = View.GONE
             }
             "26" -> {
-                holder.btnAction.text = "Deliver"
+                holder.btnAction.visibility = View.GONE
                 holder.btnRetur.visibility = View.GONE
             }
         }

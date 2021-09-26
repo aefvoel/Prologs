@@ -26,6 +26,8 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
     private lateinit var binding: FragmentAssignedBinding
     private val viewModel by inject<AssignedViewModel>()
     var tabId = "New Task"
+    private var listTask2 = arrayListOf<Task>()
+
 
 
     override fun onCreateView(
@@ -71,12 +73,33 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
 
                 setListRunningTask(it)
             })
+            responseError.observe(viewLifecycleOwner, Observer {
+                listTask2.clear()
+                rv_assignment.adapter?.notifyDataSetChanged()
+                rv_assignment_run.adapter?.notifyDataSetChanged()
+            })
 
         }
         viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
         setView()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        when(tabId){
+            "New Task" -> {
+                rv_assignment_run.visibility = View.GONE
+                rv_assignment.visibility = View.VISIBLE
+                viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
+            }
+            "Running Task" -> {
+                rv_assignment_run.visibility = View.VISIBLE
+                rv_assignment.visibility = View.GONE
+                viewModel.listRunningTask(Check(AppPreference.getProfile().idDriver.toInt()))
+            }
+        }
+    }
     private fun setView(){
 
         segmented {
@@ -134,16 +157,18 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
     }
 
     private fun setListTask(list: ArrayList<Task>){
+        listTask2 = list
         rv_assignment.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = TaskAdapter(context, list, this@AssignedFragment)
+            adapter = TaskAdapter(context, listTask2, this@AssignedFragment)
         }
     }
 
     private fun setListRunningTask(list: ArrayList<Task>){
+        listTask2 = list
         rv_assignment_run.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = TaskAdapter(context, list, this@AssignedFragment)
+            adapter = TaskAdapter(context, listTask2, this@AssignedFragment)
         }
     }
 

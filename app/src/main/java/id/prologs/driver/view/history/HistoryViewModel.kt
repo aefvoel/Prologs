@@ -6,6 +6,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import id.prologs.driver.model.Check
 import id.prologs.driver.model.Task
 import id.prologs.driver.repository.UserRepository
+import id.prologs.driver.util.SingleLiveEvent
 import id.prologs.driver.view.base.BaseViewModel
 import kotlinx.coroutines.launch
 
@@ -14,6 +15,7 @@ class HistoryViewModel(private val userRepository: UserRepository) : BaseViewMod
     val listTask = MutableLiveData<ArrayList<Task>>()
     val size = MutableLiveData<String>()
     val sum = MutableLiveData<Int>()
+    val responseError = SingleLiveEvent<Unit>()
 
     fun listCompletedTask(check: Check) {
         isLoading.value = true
@@ -27,6 +29,7 @@ class HistoryViewModel(private val userRepository: UserRepository) : BaseViewMod
                         sum.value = listTask.value!!.size
                     } else {
                         size.value = response.body.info.title + "\n" + response.body.info.message
+                        responseError.call()
                     }
                 }
                 is NetworkResponse.ServerError -> {

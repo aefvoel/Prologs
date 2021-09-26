@@ -17,7 +17,6 @@ import id.prologs.driver.model.Task
 import id.prologs.driver.util.AppPreference
 import id.prologs.driver.view.base.BaseFragment
 import id.prologs.driver.view.detail.DetailActivity
-import kotlinx.android.synthetic.main.fragment_assigned.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_history.rv_assignment
 import kotlinx.android.synthetic.main.fragment_history.swipe
@@ -28,6 +27,7 @@ class HistoryFragment : BaseFragment(), TaskAdapter.Listener{
 
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel by inject<HistoryViewModel>()
+    private var listTask2 = arrayListOf<Task>()
 
 
     override fun onCreateView(
@@ -68,18 +68,28 @@ class HistoryFragment : BaseFragment(), TaskAdapter.Listener{
             listTask.observe(viewLifecycleOwner, Observer {
                 setListTask(it)
             })
+            responseError.observe(viewLifecycleOwner, Observer {
+                listTask2.clear()
+                rv_assignment.adapter?.notifyDataSetChanged()
+            })
 
         }
         swipe.setOnRefreshListener {
             viewModel.listCompletedTask(Check(AppPreference.getProfile().idDriver.toInt()))
         }
-        viewModel.listCompletedTask(Check(AppPreference.getProfile().idDriver.toInt()))
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.listCompletedTask(Check(AppPreference.getProfile().idDriver.toInt()))
+
+    }
     private fun setListTask(list: ArrayList<Task>){
+        listTask2 = list
         rv_assignment.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = TaskAdapter(context, list, this@HistoryFragment)
+            adapter = TaskAdapter(context, listTask2, this@HistoryFragment)
         }
     }
 

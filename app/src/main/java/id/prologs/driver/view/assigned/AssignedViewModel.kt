@@ -17,6 +17,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
     val size = MutableLiveData<String>()
     val sum = MutableLiveData<Int>()
     val response = SingleLiveEvent<Unit>()
+    val responseError = SingleLiveEvent<Unit>()
 
     fun listNewTask(check: Check) {
         isLoading.value = true
@@ -30,6 +31,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                         sum.value = listTask.value!!.size
                     } else {
                         size.value = response.body.info.title + "\n" + response.body.info.message
+                        responseError.call()
                     }
                 }
                 is NetworkResponse.ServerError -> {
@@ -57,6 +59,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                         sum.value = listRunningTask.value!!.size
                     } else {
                         size.value = response.body.info.title + "\n" + response.body.info.message
+                        responseError.call()
                     }
                 }
                 is NetworkResponse.ServerError -> {

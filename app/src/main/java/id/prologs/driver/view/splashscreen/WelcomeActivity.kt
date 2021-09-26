@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import id.prologs.driver.R
 import id.prologs.driver.databinding.ActivityWelcomeBinding
 import id.prologs.driver.helper.UtilityHelper
+import id.prologs.driver.model.Update
 import id.prologs.driver.util.AppPreference
 import id.prologs.driver.view.base.BaseActivity
 import id.prologs.driver.view.main.MainActivity
@@ -54,7 +55,11 @@ class WelcomeActivity : BaseActivity() {
                 setSplashScreen()
             })
         }
-        viewModel.appSetting()
+
+        viewModel.appSetting(Update(
+            driver_id = AppPreference.getProfile().idDriver
+        ))
+
     }
 
     @SuppressLint("SetTextI18n")

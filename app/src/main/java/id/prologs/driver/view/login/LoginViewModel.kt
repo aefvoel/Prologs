@@ -6,6 +6,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import id.prologs.driver.model.Check
 import id.prologs.driver.model.Login
 import id.prologs.driver.model.Setting
+import id.prologs.driver.model.Update
 import id.prologs.driver.repository.UserRepository
 import id.prologs.driver.util.AppPreference
 import id.prologs.driver.util.SingleLiveEvent
@@ -93,6 +94,32 @@ class LoginViewModel(private val userRepository: UserRepository) : BaseViewModel
         isLoading.value = true
         viewModelScope.launch {
             when (val response = userRepository.appSetting()) {
+                is NetworkResponse.Success -> {
+                    isLoading.value = false
+                    if (response.body.status) {
+                        data.value = response.body.data!!
+                    } else {
+                        snackbarMessage.value = response.body.status
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+    }
+
+    fun appSetting(update: Update) {
+        isLoading.value = true
+        viewModelScope.launch {
+            when (val response = userRepository.appSetting(update)) {
                 is NetworkResponse.Success -> {
                     isLoading.value = false
                     if (response.body.status) {

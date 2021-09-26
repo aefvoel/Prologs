@@ -35,6 +35,7 @@ import id.prologs.driver.helper.UtilityHelper
 import id.prologs.driver.model.Check
 import id.prologs.driver.model.Logout
 import id.prologs.driver.model.Track
+import id.prologs.driver.model.Update
 import id.prologs.driver.util.AppPreference
 import id.prologs.driver.view.assigned.AssignedFragment
 import id.prologs.driver.view.base.BaseActivity
@@ -98,7 +99,9 @@ class MainActivity : BaseActivity() {
 
 
         }
-        viewModel.appSetting()
+        viewModel.appSetting(Update(
+            driver_id = AppPreference.getProfile().idDriver
+        ))
         setView()
         checkGpsStatus()
     }

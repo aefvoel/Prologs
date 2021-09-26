@@ -21,6 +21,7 @@ class DetailViewModel(private val userRepository: UserRepository) : BaseViewMode
     val isMulti = MutableLiveData<String>()
     val listReason = MutableLiveData<ArrayList<Reason>>()
     val responseSuccess = SingleLiveEvent<Unit>()
+    val responseError = SingleLiveEvent<Unit>()
 
 
     fun detailTask(detail: Detail) {
@@ -34,6 +35,7 @@ class DetailViewModel(private val userRepository: UserRepository) : BaseViewMode
                         if (data.value!!.order.isMultidrop == "0") isMulti.value = "Single Drop"
                         else isMulti.value = "Multi Drop"
                     } else {
+                        responseError.call()
                         snackbarMessage.value = response.body.status
                     }
 

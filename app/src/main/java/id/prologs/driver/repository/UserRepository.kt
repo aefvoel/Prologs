@@ -54,6 +54,9 @@ interface UserService {
     suspend fun trackDriver(@Body track: Track): NetworkResponse<ResponseSuccess<Nothing>, ResponseError>
 
     @POST("driver/app_setting")
+    suspend fun appSetting(@Body update: Update): NetworkResponse<ResponseSuccess<Setting>, ResponseError>
+
+    @POST("driver/app_setting")
     suspend fun appSetting(): NetworkResponse<ResponseSuccess<Setting>, ResponseError>
 
     @POST("driver/update_password")
@@ -100,6 +103,9 @@ open class UserRepository(private val userService: UserService) {
     }
     suspend fun trackDriver(track: Track): NetworkResponse<ResponseSuccess<Nothing>, ResponseError>{
         return userService.trackDriver(track)
+    }
+    suspend fun appSetting(update: Update): NetworkResponse<ResponseSuccess<Setting>, ResponseError> {
+        return userService.appSetting(update)
     }
     suspend fun appSetting(): NetworkResponse<ResponseSuccess<Setting>, ResponseError> {
         return userService.appSetting()

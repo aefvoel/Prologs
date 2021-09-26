@@ -30,7 +30,6 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.activity_detail.rv_assignment
 import kotlinx.android.synthetic.main.activity_detail.swipe
 import kotlinx.android.synthetic.main.activity_detail.view_parent
-import kotlinx.android.synthetic.main.fragment_history.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -53,6 +52,7 @@ class DetailActivity : BaseActivity(), ShipmentAdapter.Listener {
 
     private var array = arrayListOf<String>()
     private var arrayId = arrayListOf<String>()
+    private var list = arrayListOf<Shipment>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +103,10 @@ class DetailActivity : BaseActivity(), ShipmentAdapter.Listener {
                         this@DetailActivity, "Success", Toast.LENGTH_LONG
                 ).show()
             })
+            responseError.observe(this@DetailActivity, Observer {
+                list.clear()
+                rv_assignment.adapter?.notifyDataSetChanged()
+            })
 
         }
         setNav()
@@ -133,10 +137,12 @@ class DetailActivity : BaseActivity(), ShipmentAdapter.Listener {
             type.backgroundTintList = getColorStateList(R.color.colorRed)
         }
 
+        list = data.shipment
         rv_assignment.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = ShipmentAdapter(context, data.shipment, data.shipper, this@DetailActivity)
+            adapter = ShipmentAdapter(context, list, data.shipper, this@DetailActivity)
         }
+
     }
 
     companion object {

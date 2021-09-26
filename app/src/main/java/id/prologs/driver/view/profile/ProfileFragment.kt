@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import id.prologs.driver.R
@@ -58,17 +60,34 @@ class ProfileFragment : BaseFragment(){
                 }
             })
             logoutSuccess.observe(viewLifecycleOwner, Observer {
-                AppPreference.deleteAll()
-                val intent = Intent(context, SplashScreenActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                activity?.finish()
+                backToLogin()
             })
 
         }
         setView()
     }
 
+    private fun showLogoutDialog(){
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle("Confirmation")
+        dialog.setMessage("Do you want to logout")
+        dialog.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        dialog.setPositiveButton("Yes") { dialog, which ->
+            viewModel.logout(Logout(AppPreference.getProfile().attendanceId.toInt()))
+        }
+        dialog.create()
+        dialog.show()
+    }
+
+    private fun backToLogin() {
+        AppPreference.deleteAll()
+        val intent = Intent(context, SplashScreenActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        activity?.finish()
+    }
 
     private fun setView(){
 
@@ -78,7 +97,7 @@ class ProfileFragment : BaseFragment(){
         phone.text = AppPreference.getProfile().phone
 
         out.setOnClickListener {
-            viewModel.logout(Logout(AppPreference.getProfile().attendanceId.toInt()))
+            showLogoutDialog()
         }
         update.setOnClickListener {
             startActivity(Intent(context, UpdatePasswordActivity::class.java))
