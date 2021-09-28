@@ -141,6 +141,7 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
                     isLoading.value = false
                     if (response.body.status) {
                         data.value = response.body.data!!
+                        AppPreference.putInterval(response.body.data.trackInterval)
                     } else {
                         snackbarMessage.value = response.body.status
                     }

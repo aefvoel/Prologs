@@ -15,6 +15,8 @@ class AppPreference {
         private const val a_profile = "a_profile"
         private const val a_image = "a_image"
         private const val a_att = "a_att"
+        private const val a_interval = "a_interval"
+
 
 
 
@@ -24,6 +26,7 @@ class AppPreference {
             Hawk.delete(a_token)
             Hawk.delete(a_image)
             Hawk.delete(a_att)
+            Hawk.delete(a_interval)
 
         }
 
@@ -71,6 +74,13 @@ class AppPreference {
 
         fun getAttendance(): String {
             return (Hawk.get(a_att, ""))
+        }
+        fun putInterval(value: String) {
+            Hawk.put(a_interval, value)
+        }
+
+        fun getInterval(): String {
+            return (Hawk.get(a_interval, "10"))
         }
     }
 

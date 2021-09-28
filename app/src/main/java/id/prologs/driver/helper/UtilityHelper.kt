@@ -7,14 +7,17 @@ import android.content.DialogInterface
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import com.bumptech.glide.Glide
 import id.prologs.driver.R
 import com.google.android.material.snackbar.Snackbar
+import id.prologs.driver.util.toText
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
