@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.raodevs.touchdraw.TouchDrawView
 import id.prologs.driver.R
 import id.prologs.driver.databinding.ActivityReceivedBinding
@@ -114,9 +115,18 @@ class ReceivedActivity : BaseActivity() {
         val v: View = LayoutInflater.from(this).inflate(R.layout.dialog_signature, null)
         val drawView = v.findViewById<View>(R.id.draw) as TouchDrawView
         drawView.setPaintColor(Color.BLACK)
-        drawView.setBGColor(Color.LTGRAY)
+        drawView.setBGColor(Color.WHITE)
         sheetDialog.setContentView(v)
-        //sheetDialog.setCancelable(true);
+
+        val btnSave = v.findViewById<View>(R.id.save_btn) as MaterialButton
+        btnSave.setOnClickListener {
+//            drawView.saveFile("prologs", "sign")
+            AppPreference.putImage(UtilityHelper.reduceImageSize(drawView.file))
+            img_foto.setImageBitmap(UtilityHelper.reduceImageSize(drawView.file))
+            sheetDialog.dismiss()
+
+        }
+        sheetDialog.setCancelable(false);
         sheetDialog.show()
     }
 

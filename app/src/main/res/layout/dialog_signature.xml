@@ -10,4 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/space_x3"
+        android:background="@drawable/form_rounded"
+        android:backgroundTint="@color/colorAccent"/>
+
 </LinearLayout>

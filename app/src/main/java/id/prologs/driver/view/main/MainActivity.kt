@@ -100,12 +100,6 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             })
             data.observe(this@MainActivity, Observer {
                 // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-                if (foregroundPermissionApproved()) {
-                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                        ?: Log.d(TAG, "Service Not Bound")
-                } else {
-                    requestForegroundPermissions()
-                }
             })
 
 
@@ -167,8 +161,30 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
             }).check()
     }
+    private fun setupTracking(){
+        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
+        val enabled = sharedPreferences.getBoolean(
+            SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+
+        if (enabled) {
+            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+        } else {
+            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+            if (foregroundPermissionApproved()) {
+                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    ?: Log.d(TAG, "Service Not Bound")
+            } else {
+                requestForegroundPermissions()
+            }
+        }
+    }
     private fun setView(){
 
+        setupTracking()
         action.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
                 viewModel.login(Check(AppPreference.getProfile().idDriver.toInt()))
@@ -205,10 +221,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             startActivity(Intent(this@MainActivity, ManualActivity::class.java))
         }
 
-        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
-        sharedPreferences =
-            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
 
     }
@@ -256,8 +269,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
 
     override fun onStart() {
         super.onStart()
-        foregroundOnlyLocationService?.subscribeToLocationUpdates()
-
+//        foregroundOnlyLocationService?.subscribeToLocationUpdates()
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         val serviceIntent = Intent(this, ForegroundOnlyLocationService::class.java)
@@ -267,18 +279,28 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     override fun onResume() {
         super.onResume()
         checkGpsStatus()
-        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+//        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+            foregroundOnlyBroadcastReceiver
+        )
         LocalBroadcastManager.getInstance(this).registerReceiver(
             foregroundOnlyBroadcastReceiver,
             IntentFilter(
                 ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
         )
+
     }
 
     override fun onPause() {
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-//            foregroundOnlyBroadcastReceiver
-//        )
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+            foregroundOnlyBroadcastReceiver
+        )
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            foregroundOnlyBroadcastReceiver,
+            IntentFilter(
+                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+        )
         super.onPause()
     }
 
@@ -291,12 +313,6 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
 
 
         super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
-
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -360,9 +376,13 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                     // If user interaction was interrupted, the permission request
                     // is cancelled and you receive empty arrays.
                     Log.d(TAG, "User interaction was cancelled.")
-                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
-                    // Permission was granted.
+                grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+//                    foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
                     foregroundOnlyLocationService?.subscribeToLocationUpdates()
+
+                }
+                    // Permission was granted.
+
                 else -> {
                     // Permission denied.
 

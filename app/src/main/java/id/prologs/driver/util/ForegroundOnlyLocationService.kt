@@ -182,7 +182,7 @@ class ForegroundOnlyLocationService : Service() {
         // to maintain the 'while-in-use' label.
         // NOTE: If this method is called due to a configuration change in MainActivity,
         // we do nothing.
-        if (!configurationChange) {
+        if (!configurationChange && SharedPreferenceUtil.getLocationTrackingPref(this)) {
             Log.d(TAG, "Start foreground service")
             val notification = generateNotification(currentLocation)
             startForeground(NOTIFICATION_ID, notification)
@@ -205,7 +205,7 @@ class ForegroundOnlyLocationService : Service() {
     fun subscribeToLocationUpdates() {
         Log.d(TAG, "subscribeToLocationUpdates()")
 
-//        SharedPreferenceUtil.saveLocationTrackingPref(this, true)
+        SharedPreferenceUtil.saveLocationTrackingPref(this, true)
 
         // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
         // ensure this Service can be promoted to a foreground service, i.e., the service needs to
@@ -217,7 +217,7 @@ class ForegroundOnlyLocationService : Service() {
             fusedLocationProviderClient.requestLocationUpdates(
                 locationRequest, locationCallback, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
-//            SharedPreferenceUtil.saveLocationTrackingPref(this, false)
+            SharedPreferenceUtil.saveLocationTrackingPref(this, false)
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
@@ -236,9 +236,9 @@ class ForegroundOnlyLocationService : Service() {
                     Log.d(TAG, "Failed to remove Location Callback.")
                 }
             }
-//            SharedPreferenceUtil.saveLocationTrackingPref(this, false)
+            SharedPreferenceUtil.saveLocationTrackingPref(this, false)
         } catch (unlikely: SecurityException) {
-//            SharedPreferenceUtil.saveLocationTrackingPref(this, true)
+            SharedPreferenceUtil.saveLocationTrackingPref(this, true)
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
@@ -257,7 +257,9 @@ class ForegroundOnlyLocationService : Service() {
         //      4. Build and issue the notification
 
         // 0. Get data
-        val mainNotificationText = location?.toText() ?: getString(R.string.no_location_text)
+//        val mainNotificationText = location?.toText() ?: getString(R.string.no_location_text)
+        val mainNotificationText = "Restart aplikasi Anda jika notifikasi ini menghilang."
+
         val titleText = getString(R.string.app_name)
 
         // 1. Create Notification Channel for O+ and beyond devices (26+).
@@ -302,15 +304,15 @@ class ForegroundOnlyLocationService : Service() {
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setSilent(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .addAction(
-                R.drawable.ic_tracking, getString(R.string.launch_activity),
-                activityPendingIntent
-            )
-            .addAction(
-                R.drawable.ic_tracking,
-                getString(R.string.stop_location_updates_button_text),
-                servicePendingIntent
-            )
+//            .addAction(
+//                R.drawable.ic_tracking, getString(R.string.launch_activity),
+//                activityPendingIntent
+//            )
+//            .addAction(
+//                R.drawable.ic_tracking,
+//                getString(R.string.stop_location_updates_button_text),
+//                servicePendingIntent
+//            )
             .build()
     }
 
