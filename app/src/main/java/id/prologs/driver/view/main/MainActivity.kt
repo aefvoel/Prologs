@@ -19,6 +19,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -62,6 +63,30 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     private lateinit var locationManager: LocationManager
     var gpsStatus = false
 
+    private var foregroundOnlyLocationServiceBound = false
+
+    // Provides location updates for while-in-use feature.
+    private var foregroundOnlyLocationService: ForegroundOnlyLocationService? = null
+
+    // Listens for location broadcasts from ForegroundOnlyLocationService.
+    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+    // Monitors connection to the while-in-use service.
+    private val foregroundOnlyServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as ForegroundOnlyLocationService.LocalBinder
+            foregroundOnlyLocationService = binder.service
+            foregroundOnlyLocationServiceBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            foregroundOnlyLocationService = null
+            foregroundOnlyLocationServiceBound = false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +124,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 action.isChecked = false
             })
             data.observe(this@MainActivity, Observer {
-                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+
             })
 
 
@@ -117,7 +142,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         if (gpsStatus) {
 
         } else {
-            Snackbar.make(view_parent, "GPS is disabled!", Snackbar.LENGTH_LONG)
+            Snackbar.make(view_parent, "GPS is disabled!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Enable") {
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }.show()
@@ -161,30 +186,8 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 }
             }).check()
     }
-    private fun setupTracking(){
-        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
-        sharedPreferences =
-            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-        val enabled = sharedPreferences.getBoolean(
-            SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
-
-        if (enabled) {
-            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
-        } else {
-            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-            if (foregroundPermissionApproved()) {
-                foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                    ?: Log.d(TAG, "Service Not Bound")
-            } else {
-                requestForegroundPermissions()
-            }
-        }
-    }
     private fun setView(){
-
-        setupTracking()
         action.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
                 viewModel.login(Check(AppPreference.getProfile().idDriver.toInt()))
@@ -222,8 +225,49 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         }
 
 
+        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
+        ic_location.setOnClickListener {
+            val enabled = sharedPreferences.getBoolean(
+                SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+
+            if (enabled) {
+                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+            } else {
+                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                if (foregroundPermissionApproved()) {
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                        ?: Log.d(TAG, "Service Not Bound")
+                } else {
+                    requestForegroundPermissions()
+                }
+            }
+        }
+
+        if (foregroundPermissionApproved()) {
+            foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                ?: Log.d(TAG, "Service Not Bound")
+        } else {
+            requestForegroundPermissions()
+        }
+
+//        updateButtonState(
+//            sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+//        )
+//        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+//
+//        val serviceIntent = Intent(this, ForegroundOnlyLocationService::class.java)
+//        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
 
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            foregroundOnlyBroadcastReceiver,
+            IntentFilter(
+                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+        )
     }
     private fun dialogPickup() {
         val dialogPickup = AlertDialog.Builder(this)
@@ -241,35 +285,11 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         dialogPickup.show()
     }
 
-
-    private var foregroundOnlyLocationServiceBound = false
-
-    // Provides location updates for while-in-use feature.
-    private var foregroundOnlyLocationService: ForegroundOnlyLocationService? = null
-
-    // Listens for location broadcasts from ForegroundOnlyLocationService.
-    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
-
-    private lateinit var sharedPreferences: SharedPreferences
-
-    // Monitors connection to the while-in-use service.
-    private val foregroundOnlyServiceConnection = object : ServiceConnection {
-
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binder = service as ForegroundOnlyLocationService.LocalBinder
-            foregroundOnlyLocationService = binder.service
-            foregroundOnlyLocationServiceBound = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            foregroundOnlyLocationService = null
-            foregroundOnlyLocationServiceBound = false
-        }
-    }
-
     override fun onStart() {
         super.onStart()
-//        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+        updateButtonState(
+            sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+        )
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         val serviceIntent = Intent(this, ForegroundOnlyLocationService::class.java)
@@ -280,28 +300,36 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
         super.onResume()
         checkGpsStatus()
 //        foregroundOnlyLocationService?.subscribeToLocationUpdates()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-            foregroundOnlyBroadcastReceiver
-        )
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            foregroundOnlyBroadcastReceiver,
-            IntentFilter(
-                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
-        )
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+//            foregroundOnlyBroadcastReceiver
+//        )
+//        LocalBroadcastManager.getInstance(this).registerReceiver(
+//            foregroundOnlyBroadcastReceiver,
+//            IntentFilter(
+//                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+//        )
 
     }
 
     override fun onPause() {
+
+//
+//        LocalBroadcastManager.getInstance(this).registerReceiver(
+//            foregroundOnlyBroadcastReceiver,
+//            IntentFilter(
+//                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+//        )
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+
+        foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
             foregroundOnlyBroadcastReceiver
         )
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            foregroundOnlyBroadcastReceiver,
-            IntentFilter(
-                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
-        )
-        super.onPause()
+        super.onDestroy()
     }
 
     override fun onStop() {
@@ -318,7 +346,9 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         // Updates button states if new while in use location is added to SharedPreferences.
         if (key == SharedPreferenceUtil.KEY_FOREGROUND_ENABLED) {
-
+            updateButtonState(sharedPreferences.getBoolean(
+                SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+            )
         }
     }
 
@@ -411,6 +441,14 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
     }
 
 
+    private fun updateButtonState(trackingLocation: Boolean) {
+        if (trackingLocation) {
+            ic_location.setImageResource(R.drawable.ic_location_active)
+        } else {
+            ic_location.setImageResource(R.drawable.ic_location)
+        }
+    }
+
     /**
      * Receiver for location broadcasts from [ForegroundOnlyLocationService].
      */
@@ -422,6 +460,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             )
 
             if (location != null) {
+                Log.d("track", location.toString())
                 viewModel.trackDriver(
                     Track(
                         AppPreference.getProfile().idDriver,
@@ -442,5 +481,9 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
 
         private const val TAG = "MainActivity"
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+
+        private const val PACKAGE_NAME = "id.prologs.driver"
+        private const val EXTRA_CANCEL_LOCATION_TRACKING_FROM_NOTIFICATION =
+            "${PACKAGE_NAME}.extra.CANCEL_LOCATION_TRACKING_FROM_NOTIFICATION"
     }
 }

@@ -316,6 +316,13 @@ class ForegroundOnlyLocationService : Service() {
             .build()
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        this.stopSelf()
+        unsubscribeToLocationUpdates()
+//        SharedPreferenceUtil.saveLocationTrackingPref(this, false)
+        super.onTaskRemoved(rootIntent)
+    }
+
     /**
      * Class used for the client Binder.  Since this service runs in the same process as its
      * clients, we don't need to deal with IPC.

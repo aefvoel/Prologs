@@ -33,7 +33,6 @@ class TaskAdapter(context : Context, list: ArrayList<Task>, private val listener
         return itemList.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
 
         holder.receipt.text = itemList[position].receiptNumber
