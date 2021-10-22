@@ -97,17 +97,18 @@ class ReceivedActivity : BaseActivity() {
             openDialogSignature()
         }
         btn_submit.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("Are you sure want update delivery status?")
-                .setPositiveButton("Yes") { dialog, which ->
-                    prepareUploadImage()
-                }
-                .setNegativeButton(
-                    "No"
-                ) { dialog, _ ->
-                    dialog.cancel()
-                }
-            builder.show()
+            openDialogConfirmation()
+//            val builder = AlertDialog.Builder(this)
+//            builder.setMessage("Are you sure want update delivery status?")
+//                .setPositiveButton("Yes") { dialog, which ->
+//                    prepareUploadImage()
+//                }
+//                .setNegativeButton(
+//                    "No"
+//                ) { dialog, _ ->
+//                    dialog.cancel()
+//                }
+//            builder.show()
         }
     }
     private fun openDialogSignature() {
@@ -123,6 +124,27 @@ class ReceivedActivity : BaseActivity() {
 //            drawView.saveFile("prologs", "sign")
             AppPreference.putImage(UtilityHelper.reduceImageSize(drawView.file))
             img_foto.setImageBitmap(UtilityHelper.reduceImageSize(drawView.file))
+            sheetDialog.dismiss()
+
+        }
+        sheetDialog.setCancelable(false);
+        sheetDialog.show()
+    }
+
+    private fun openDialogConfirmation() {
+        val sheetDialog = BottomSheetDialog(this)
+        val v: View = LayoutInflater.from(this).inflate(R.layout.dialog_confirmation, null)
+        sheetDialog.setContentView(v)
+
+        val btnNo = v.findViewById<View>(R.id.btn_no) as MaterialButton
+        val btnYes = v.findViewById<View>(R.id.btn_yes) as MaterialButton
+
+        btnYes.setOnClickListener {
+            prepareUploadImage()
+            sheetDialog.dismiss()
+
+        }
+        btnNo.setOnClickListener {
             sheetDialog.dismiss()
 
         }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_x4"
+        android:text="Are you sure want update delivery status?"
+        android:textColor="@color/black"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/space_x3"
+        android:layout_marginEnd="@dimen/space_x3"
+        android:layout_marginBottom="@dimen/space_x2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="No"
+            android:layout_margin="@dimen/space_x1"
+            android:backgroundTint="@color/colorRed"
+            android:textColor="#fff"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/space_x1"
+            android:onClick="@{()->vm.onClickSubmit()"
+            android:text="Yes"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="#fff"/>
+
+    </LinearLayout>
+
+</LinearLayout>

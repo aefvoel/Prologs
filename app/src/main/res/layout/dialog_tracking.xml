@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_x2"
+        android:padding="@dimen/space_x3"
+        android:text="Aplikasi membutuhkan live tracking untuk bekerja."
+        android:textColor="@color/black"
+        android:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Turn On Live Tracking"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/space_x3"
+        android:background="@drawable/form_rounded"
+        android:backgroundTint="@color/colorAccent"/>
+
+</LinearLayout>

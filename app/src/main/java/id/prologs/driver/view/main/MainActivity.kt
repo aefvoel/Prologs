@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -18,6 +19,8 @@ import android.os.IBinder
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -26,6 +29,8 @@ import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -33,6 +38,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.raodevs.touchdraw.TouchDrawView
 import id.prologs.driver.BuildConfig
 import id.prologs.driver.R
 import id.prologs.driver.databinding.ActivityMainBinding
@@ -51,6 +57,8 @@ import id.prologs.driver.view.manual.ManualActivity
 import id.prologs.driver.view.profile.ProfileFragment
 import id.prologs.driver.view.scanner.ScannerActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view_parent
+import kotlinx.android.synthetic.main.activity_received.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 import java.util.*
@@ -187,6 +195,19 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             }).check()
     }
 
+    override fun onBackPressed() {
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+        dialog.setTitle("Confirmation")
+        dialog.setMessage("Do you want to exit app?")
+        dialog.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        dialog.setPositiveButton("Yes") { dialog, which ->
+            super.onBackPressed()
+        }
+        dialog.create()
+        dialog.show()
+    }
     private fun setView(){
         action.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
@@ -269,6 +290,35 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
                 ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
         )
     }
+
+    private fun openDialogTracking() {
+        val sheetDialog = BottomSheetDialog(this)
+        val v: View = LayoutInflater.from(this).inflate(R.layout.dialog_tracking, null)
+        sheetDialog.setContentView(v)
+
+        val btn = v.findViewById<View>(R.id.btn) as MaterialButton
+        btn.setOnClickListener {
+            val enabled = sharedPreferences.getBoolean(
+                SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+
+            if (enabled) {
+                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+            } else {
+                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                if (foregroundPermissionApproved()) {
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                        ?: Log.d(TAG, "Service Not Bound")
+                } else {
+                    requestForegroundPermissions()
+                }
+            }
+            sheetDialog.dismiss()
+
+        }
+        sheetDialog.setCancelable(false)
+        sheetDialog.show()
+    }
+
     private fun dialogPickup() {
         val dialogPickup = AlertDialog.Builder(this)
         dialogPickup.setTitle("Pickup")
@@ -446,6 +496,7 @@ class MainActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeL
             ic_location.setImageResource(R.drawable.ic_location_active)
         } else {
             ic_location.setImageResource(R.drawable.ic_location)
+            openDialogTracking()
         }
     }
 
