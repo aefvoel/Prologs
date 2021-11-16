@@ -45,7 +45,17 @@
                 app:segmentColorChecked="@color/colorPrimary"
                 app:spreadType="wrap"
                 app:textColor="@color/colorPrimary"
-                app:textColorChecked="@color/white" />
+                app:textColorChecked="@color/white">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.totalNew}"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.totalRunning}"/>
+            </com.creageek.segmentedbutton.SegmentedButton>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_assignment"

@@ -8,6 +8,7 @@ data class ResponseSuccess<T> (
         @SerializedName("attendance_id") val id: Int,
         @SerializedName("error") var error : Error,
         @SerializedName("message") var message : String,
+        @SerializedName("total") val total: Int,
         @SerializedName("data") val data: T
 )
 

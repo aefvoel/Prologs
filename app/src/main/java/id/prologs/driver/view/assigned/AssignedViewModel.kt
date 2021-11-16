@@ -16,8 +16,57 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
     val listRunningTask = MutableLiveData<ArrayList<Task>>()
     val size = MutableLiveData<String>()
     val sum = MutableLiveData<Int>()
+    val totalNew = MutableLiveData<String>()
+    val totalRunning = MutableLiveData<String>()
     val response = SingleLiveEvent<Unit>()
     val responseError = SingleLiveEvent<Unit>()
+    val responseSuccess = SingleLiveEvent<Unit>()
+
+    fun fetchTab(check: Check) {
+        viewModelScope.launch {
+            when (val response = userRepository.listNewTask(check)) {
+                is NetworkResponse.Success -> {
+                    isLoading.value = false
+                    if (response.body.status){
+                        totalNew.value = "New Task (${response.body.total})"
+                    } else {
+                        totalNew.value = "New Task"
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+        viewModelScope.launch {
+            when (val response = userRepository.listRunningTask(check)) {
+                is NetworkResponse.Success -> {
+                    if (response.body.status){
+                        totalRunning.value = "Running Task (${response.body.total})"
+                    } else {
+                        totalRunning.value = "Running Task"
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+    }
 
     fun listNewTask(check: Check) {
         isLoading.value = true
@@ -29,7 +78,9 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                         listTask.value = response.body.data!!
                         size.value = "You have ${listTask.value!!.size} assigned tasks."
                         sum.value = listTask.value!!.size
+                        totalNew.value = "New Task (${response.body.total})"
                     } else {
+                        totalNew.value = "New Task"
                         size.value = response.body.info.title + "\n" + response.body.info.message
                         responseError.call()
                     }
@@ -57,7 +108,9 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                         listRunningTask.value = response.body.data!!
                         size.value = "You have ${listRunningTask.value!!.size} assigned tasks."
                         sum.value = listRunningTask.value!!.size
+                        totalRunning.value = "Running Task (${response.body.total})"
                     } else {
+                        totalRunning.value = "Running Task"
                         size.value = response.body.info.title + "\n" + response.body.info.message
                         responseError.call()
                     }

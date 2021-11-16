@@ -1,5 +1,6 @@
 package id.prologs.driver.view.assigned
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -78,8 +79,8 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
                 rv_assignment.adapter?.notifyDataSetChanged()
                 rv_assignment_run.adapter?.notifyDataSetChanged()
             })
-
         }
+        viewModel.fetchTab(Check(AppPreference.getProfile().idDriver.toInt()))
         viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
         setView()
     }
@@ -87,19 +88,20 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
     override fun onResume() {
         super.onResume()
 
-        when(tabId){
-            "New Task" -> {
+        when(tabId.contains("New")){
+            true -> {
                 rv_assignment_run.visibility = View.GONE
                 rv_assignment.visibility = View.VISIBLE
                 viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
             }
-            "Running Task" -> {
+            false -> {
                 rv_assignment_run.visibility = View.VISIBLE
                 rv_assignment.visibility = View.GONE
                 viewModel.listRunningTask(Check(AppPreference.getProfile().idDriver.toInt()))
             }
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun setView(){
 
         segmented {
@@ -108,21 +110,21 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
             initialCheckedIndex = 0
 
             // init with segments programmatically without RadioButton as a child in xml
-            initWithItems {
-                // takes only list of strings
-                listOf("New Task", "Running Task")
-            }
+//            initWithItems {
+//                // takes only list of strings
+//                listOf("New Task (${viewModel.totalNew.value}", "Running Task (${viewModel.totalRunning.value})")
+//            }
 
             // notifies when segment was checked
             onSegmentChecked { segment ->
                 tabId = segment.text.toString()
-                when(segment.text){
-                    "New Task" -> {
+                when(segment.text.contains("New")){
+                    true -> {
                         rv_assignment_run.visibility = View.GONE
                         rv_assignment.visibility = View.VISIBLE
                         viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
                     }
-                    "Running Task" -> {
+                    false -> {
                         rv_assignment_run.visibility = View.VISIBLE
                         rv_assignment.visibility = View.GONE
                         viewModel.listRunningTask(Check(AppPreference.getProfile().idDriver.toInt()))
@@ -141,13 +143,13 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
         }
 
         swipe.setOnRefreshListener {
-            when(tabId){
-                "New Task" -> {
+            when(tabId.contains("New")){
+                true -> {
                     rv_assignment_run.visibility = View.GONE
                     rv_assignment.visibility = View.VISIBLE
                     viewModel.listNewTask(Check(AppPreference.getProfile().idDriver.toInt()))
                 }
-                "Running Task" -> {
+                false -> {
                     rv_assignment_run.visibility = View.VISIBLE
                     rv_assignment.visibility = View.GONE
                     viewModel.listRunningTask(Check(AppPreference.getProfile().idDriver.toInt()))
@@ -178,13 +180,13 @@ class AssignedFragment : BaseFragment(), TaskAdapter.Listener{
     }
 
     override fun onItemClicked(data: Task) {
-        when(tabId){
-            "New Task" -> {
+        when(tabId.contains("New")){
+            true -> {
                 startActivity(Intent(context, DetailActivity::class.java)
                     .putExtra("id_order", data.idOrder)
                     .putExtra("source", "1"))
             }
-            "Running Task" -> {
+            false -> {
                 startActivity(Intent(context, DetailActivity::class.java)
                     .putExtra("id_order", data.idOrder)
                     .putExtra("source", "2"))

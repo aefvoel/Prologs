@@ -23,7 +23,10 @@ data class Update (
     @SerializedName("confirm_password")
     var confirm_pass: String? = null,
     @SerializedName("driver_id")
-    var driver_id: String? = null
+    var driver_id: String? = null,
+    @SerializedName("id_notification")
+    var id_notification: String? = null
+
 
 
 )

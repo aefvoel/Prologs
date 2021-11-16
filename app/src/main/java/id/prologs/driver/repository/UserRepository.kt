@@ -61,6 +61,15 @@ interface UserService {
 
     @POST("driver/update_password")
     suspend fun updatePassword(@Body update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError>
+
+    @POST("driver/list_notification")
+    suspend fun listNotification(@Body update: Update): NetworkResponse<ResponseSuccess<ArrayList<Notification>>, ResponseError>
+
+    @POST("driver/delete_notification")
+    suspend fun deleteNotification(@Body update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError>
+
+    @POST("driver/mark_as_read_notification")
+    suspend fun markNotification(@Body update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError>
 }
 
 open class UserRepository(private val userService: UserService) {
@@ -112,6 +121,15 @@ open class UserRepository(private val userService: UserService) {
     }
     suspend fun updatePassword(update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError> {
         return userService.updatePassword(update)
+    }
+    suspend fun listNotification(update: Update): NetworkResponse<ResponseSuccess<ArrayList<Notification>>, ResponseError> {
+        return userService.listNotification(update)
+    }
+    suspend fun deleteNotification(update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError> {
+        return userService.deleteNotification(update)
+    }
+    suspend fun markNotification(update: Update): NetworkResponse<ResponseSuccess<Nothing>, ResponseError> {
+        return userService.markNotification(update)
     }
 
 }

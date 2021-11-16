@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.prologs.driver.view.detail.DetailViewModel" />
+            type="id.prologs.driver.view.main.MainViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,27 +23,37 @@
 
             <include layout="@layout/toolbar" />
 
+            <TextView
+                android:id="@+id/alert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bluemki"
+                android:padding="@dimen/space_x2"
+                android:text="@{vm.size}"
+                android:layout_below="@+id/toolbar"
+                android:textColor="@color/white"
+                android:visibility="@{vm.size != null ? View.VISIBLE : View.GONE}" />
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/toolbar">
+                android:layout_below="@id/alert">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/soft_grey">
+                    android:layout_height="wrap_content">
 
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_assignment"
+                        android:id="@+id/rv_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/space_x2"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_detail" />
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_notification" />
 
 
                 </RelativeLayout>

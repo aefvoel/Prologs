@@ -35,8 +35,11 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     val lon = MutableLiveData<String>()
     val logoutSuccess = SingleLiveEvent<Unit>()
     val loginSuccess = SingleLiveEvent<Unit>()
+    val size = MutableLiveData<String>()
 
     val data = MutableLiveData<Setting>()
+    val listNotif = MutableLiveData<ArrayList<Notification>>()
+    val deleteSuccess = SingleLiveEvent<Unit>()
 
 
     fun onClickSubmit(){
@@ -142,6 +145,85 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
                     if (response.body.status) {
                         data.value = response.body.data!!
                         AppPreference.putInterval(response.body.data.trackInterval)
+                    } else {
+                        snackbarMessage.value = response.body.status
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+    }
+
+    fun listNotification(update: Update) {
+        isLoading.value = true
+        viewModelScope.launch {
+            when (val response = userRepository.listNotification(update)) {
+                is NetworkResponse.Success -> {
+                    isLoading.value = false
+                    if (response.body.status) {
+                        listNotif.value = response.body.data!!
+                    } else {
+                        size.value = response.body.info.title + "\n" + response.body.info.message
+                        snackbarMessage.value = response.body.status
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+    }
+
+    fun deleteNotification(update: Update) {
+        isLoading.value = true
+        viewModelScope.launch {
+            when (val response = userRepository.deleteNotification(update)) {
+                is NetworkResponse.Success -> {
+                    isLoading.value = false
+                    if (response.body.status) {
+                        deleteSuccess.call()
+                    } else {
+                        snackbarMessage.value = response.body.status
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    isLoading.value = false
+                    snackbarMessage.value = response.body?.message
+                }
+                is NetworkResponse.NetworkError -> {
+                    isLoading.value = false
+                    networkError.value = response.error.message.toString()
+                    snackbarMessage.value = response.error.message.toString()
+
+                }
+            }
+        }
+    }
+
+    fun markNotification(update: Update) {
+        isLoading.value = true
+        viewModelScope.launch {
+            when (val response = userRepository.markNotification(update)) {
+                is NetworkResponse.Success -> {
+                    isLoading.value = false
+                    if (response.body.status) {
+
                     } else {
                         snackbarMessage.value = response.body.status
                     }

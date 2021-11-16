@@ -6,23 +6,13 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/alert"
+        android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_x2"
         android:padding="@dimen/space_x3"
-        android:text="You need to enable live tracking!"
         android:textColor="@color/black"
+        android:textSize="16sp"
         android:visibility="visible" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enable Live Tracking"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/space_x3"
-        android:background="@drawable/form_rounded"
-        android:backgroundTint="@color/colorAccent"/>
 
 </LinearLayout>

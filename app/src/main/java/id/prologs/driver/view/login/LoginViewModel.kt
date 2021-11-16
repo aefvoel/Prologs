@@ -41,7 +41,7 @@ class LoginViewModel(private val userRepository: UserRepository) : BaseViewModel
                         login(Check(response.body.data.idDriver.toInt()))
                         AppPreference.putProfile(response.body.data)
                     } else {
-                        snackbarMessage.value = "No HP belum terdaftar!"
+                        snackbarMessage.value = response.body.message
                     }
 
                 }
