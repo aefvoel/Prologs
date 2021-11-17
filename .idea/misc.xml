@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/layout/dialog_notification.xml" value="0.1840277777777778" />
         <entry key="app/src/main/res/layout/dialog_tracking.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_assigned.xml" value="0.1840277777777778" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.10972222222222222" />
         <entry key="app/src/main/res/layout/item_detail.xml" value="0.1840277777777778" />
         <entry key="app/src/main/res/layout/item_notification.xml" value="0.1840277777777778" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.1840277777777778" />

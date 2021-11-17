@@ -68,7 +68,7 @@ class NotificationActivity : BaseActivity(), NotificationAdapter.Listener {
             listNotif.observe(this@NotificationActivity, Observer {
                 setListNotification(it)
             })
-            deleteSuccess.observe(this@NotificationActivity, Observer {
+            updateSuccess.observe(this@NotificationActivity, Observer {
                 viewModel.listNotification(Update(
                     driver_id = AppPreference.getProfile().idDriver
                 ))
@@ -79,8 +79,17 @@ class NotificationActivity : BaseActivity(), NotificationAdapter.Listener {
         viewModel.listNotification(Update(
             driver_id = AppPreference.getProfile().idDriver
         ))
+        setView()
+
     }
 
+    private fun setView(){
+        swipe.setOnRefreshListener {
+            viewModel.listNotification(Update(
+                driver_id = AppPreference.getProfile().idDriver
+            ))
+        }
+    }
     private fun setListNotification(list: ArrayList<Notification>){
         rv_notification.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

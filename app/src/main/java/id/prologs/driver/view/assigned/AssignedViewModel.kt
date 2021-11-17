@@ -76,7 +76,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                     isLoading.value = false
                     if (response.body.status){
                         listTask.value = response.body.data!!
-                        size.value = "You have ${listTask.value!!.size} assigned tasks."
+                        size.value = "You have ${listTask.value!!.size} new tasks."
                         sum.value = listTask.value!!.size
                         totalNew.value = "New Task (${response.body.total})"
                     } else {
@@ -106,7 +106,7 @@ class AssignedViewModel(private val userRepository: UserRepository) : BaseViewMo
                     isLoading.value = false
                     if (response.body.status){
                         listRunningTask.value = response.body.data!!
-                        size.value = "You have ${listRunningTask.value!!.size} assigned tasks."
+                        size.value = "You have ${listRunningTask.value!!.size} running tasks."
                         sum.value = listRunningTask.value!!.size
                         totalRunning.value = "Running Task (${response.body.total})"
                     } else {

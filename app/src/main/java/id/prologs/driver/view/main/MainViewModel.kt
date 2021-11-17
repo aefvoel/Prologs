@@ -39,7 +39,6 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
 
     val data = MutableLiveData<Setting>()
     val listNotif = MutableLiveData<ArrayList<Notification>>()
-    val deleteSuccess = SingleLiveEvent<Unit>()
 
 
     fun onClickSubmit(){
@@ -197,7 +196,7 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
                 is NetworkResponse.Success -> {
                     isLoading.value = false
                     if (response.body.status) {
-                        deleteSuccess.call()
+                        updateSuccess.call()
                     } else {
                         snackbarMessage.value = response.body.status
                     }
@@ -223,7 +222,7 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
                 is NetworkResponse.Success -> {
                     isLoading.value = false
                     if (response.body.status) {
-
+                        updateSuccess.call()
                     } else {
                         snackbarMessage.value = response.body.status
                     }

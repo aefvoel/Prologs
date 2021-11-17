@@ -2,17 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/space_x3"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Detail"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="visible" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text="Detail"
+        android:layout_marginTop="@dimen/space_x1"
+        android:background="@color/soft_grey"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="visible" />
     <TextView
         android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_x2"
-        android:padding="@dimen/space_x3"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:visibility="visible" />
 
 </LinearLayout>
