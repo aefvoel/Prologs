@@ -87,7 +87,9 @@ class LoginActivity : BaseActivity() {
             val token = task.result
             AppPreference.putToken(token.toString())
             // Log and toast
-            Log.d(ContentValues.TAG, token)
+            if (token != null) {
+                Log.d(ContentValues.TAG, token)
+            }
 
             viewModel.checkImei(Login(no.text.toString(),
                 AppPreference.getToken(), pass.text.toString())
